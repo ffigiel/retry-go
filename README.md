@@ -1,6 +1,6 @@
 # retry-go [![GoDoc](https://godoc.org/github.com/megapctr/retry-go?status.svg)](http://godoc.org/github.com/megapctr/retry-go)
 
-Minimal retry library
+🔁 Minimal retry library for Go
 
 ## Usage
 
