@@ -39,6 +39,12 @@ func New(n int, df DurationFunc) Retryer {
 	}
 }
 
+// Exp returns a new Retryer with exponential DurationFunc, starting from given
+// base.
+func Exp(n int, base time.Duration) Retryer {
+	return New(n, ExpDuration(base))
+}
+
 type RetryerFactory func() Retryer
 
 // Factory returns a reusable function producing Retryers with given

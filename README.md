@@ -8,7 +8,7 @@ Basic example:
 ```go
 var res *http.Response
 var err error
-for r := retry.New(5, retry.ExpDuration(time.Second)); r.Next(err); {
+for r := retry.Exp(5, time.Second); r.Next(err); {
   res, err = http.Get("https://example.com")
 }
 if err != nil {
