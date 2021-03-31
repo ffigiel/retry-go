@@ -24,7 +24,7 @@ func ExpDuration(base time.Duration) DurationFunc {
 //
 // The Next method returns false when given error is nil, or when maximum
 // number of attempts is reached.
-// It always returns true on the first call, making it usable in for a loop.
+// It always returns true on the first call, making it usable in a for loop.
 // HttpNext behaves just like Next, except it will retry on server errors (status >= 500)
 type Retryer interface {
 	Next(error) bool
