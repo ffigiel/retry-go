@@ -1,7 +1,9 @@
 package retry
 
 import (
+	"errors"
 	"math"
+	"net/http"
 	"time"
 )
 
@@ -23,8 +25,10 @@ func ExpDuration(base time.Duration) DurationFunc {
 // The Next method returns false when given error is nil, or when maximum
 // number of attempts is reached.
 // It always returns true on the first call, making it usable in for a loop.
+// HttpNext behaves just like Next, except it will retry on server errors (status >= 500)
 type Retryer interface {
 	Next(error) bool
+	HttpNext(*http.Response, error) bool
 }
 
 // New returns a Retryer which allows up to n attempts, waiting between
@@ -78,4 +82,12 @@ func (r *retryer) Next(err error) bool {
 	time.Sleep(d)
 	r.i++
 	return true
+}
+
+func (r *retryer) HttpNext(res *http.Response, err error) bool {
+	if err == nil && res != nil && res.StatusCode >= 500 {
+		// Create a non-nil error, so that Next will cause a retry
+		err = errors.New("server error")
+	}
+	return r.Next(err)
 }
